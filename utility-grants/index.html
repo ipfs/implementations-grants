@@ -27,14 +27,14 @@
   </p>
 
   <h2>Spring 2025 Request for Proposals: Content-Addressed Data Tools</h2>
-  <p>The IPFS Implementations Fund supports a more open, resilient, and efficient web by funding  implementations of the <a href="https://specs.ipfs.tech/">IPFS protocol</a>. It aims to broaden the reach and impact of the IPFS project by making content addressing and peer-to-peer networking more accessible across different platforms, programming languages, environments, and use cases.</p>
+  <p>The IPFS Implementations Fund supports a more open, resilient, and efficient web by funding implementations of the <a href="https://specs.ipfs.tech/">IPFS protocol</a>. It aims to broaden the reach and impact of the IPFS project by making content addressing and peer-to-peer networking more accessible across different platforms, programming languages, environments, and use cases.</p>
   <p>Our Utility Grants program supports developers creating essential utilities, libraries, and tooling. Grants of $5,000-25,000 per project aim to fill critical tooling gaps and strengthen the foundations of an open and interoperable web.</p>
   <p>For the Spring 2025 cycle, we seek proposals from qualified individuals or teams for the following:</p>
 
   <h3>RFP #2025-01: CAR Archive Explorers and Utilities</h3>
   <p>The CAR format (Content Addressable aRchives) makes data reliably portable by packaging up content with its cryptographic identifiers. This ensures the same data can be verified and used across different systems and platforms, making it a good building block for “credible exit” and data portability. Typically found in a file with a <code>.car</code> filename extension, you can think of them like TAR files that are designed for storing collections of content addressed data.</p>
   <p>Originally created as a way to create stable documents from large or dynamic IPLD graphs (including those graphs that populate “virtual directories” of files added to IPFS), CAR files can now be found in IPFS-based systems, Storacha, ATProto, and other open source projects. With growing interest in data independence – moving large datasets between storage providers, backing up personal content from hosted services, and maintaining data integrity across the web – there's a growing need for accessible tools that help people create, inspect, and manage their own CAR files.</p>
-  <p>Currently, there is limited stand-alone tooling for the CAR format. Prior art includes Bluesky’s <a href="https://github.com/bluesky-social/indigo/blob/main/cmd/goat/repo.go">goat</a>, but this is specific to BlueSky-export .car files and not ergonomic to use outside of that context.</p>
+  <p>Currently, there is limited stand-alone tooling for the CAR format. Prior art includes <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-import">kubo</a>'s <code>dag import</code> and <code></code>dag export</code> CLIs, and Bluesky’s <a href="https://github.com/bluesky-social/indigo/blob/main/cmd/goat/repo.go">goat</a>, but they are mostly embedded within larger app-specific libraries and not ergonomic to use outside of that context. Standalone tools include <a href="https://www.npmjs.com/package/ipfs-car">ipfs-car</a> and <a href="https://github.com/ipld/go-car">go-car</a>.</p>
 
   <p>We are interested in tools that make CAR archives more useful and/or more usable. Command line tools, utility libraries, and browser-based explorers are equally welcome. Enhancements or extensions to existing tools or platforms are especially encouraged.</p>
 
@@ -78,6 +78,7 @@
   <ul>
   <li>License: Projects must be licensed under the MIT and/or Apache-2.0 licenses.</li>
   <li>Duration: This program targets projects of 1-3 months. Exceptions will be considered on a case-by-case basis.</li>
+  <li>Contributions to existing projects:</li> If you are proposing to improve an existing project of which you are not a maintainer, please check with the maintainer(s) first. Your proposal should link to an issue or other artifact showing that you have discussed the proposed change with the maintainer, incorporated any feedback, and that they support and will be available to review your PRs.
   <li>Project Communications:
     <ul>
     <li>Grantees are expected to publish an overview and introduction to their project upon completion. This can be on a personal blog or website, the IPFS Forum, or other public place.</li>

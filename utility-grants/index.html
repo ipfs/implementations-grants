@@ -27,45 +27,46 @@
   </p>
 
   <p>
-    <strong>All grant applications are currently closed!</strong> There will be new ones in the future, please 
-    <a href="https://bsky.app/profile/ipfs.tech">watch this space</a> for news.
+    To stay up to date with future RFPs, please <a href="https://bsky.app/profile/ipfs.tech">watch this space</a>.
   </p>
-    
-  <h2>Spring 2025 Request for Proposals: Content-Addressed Data Tools</h2>
+
+  <h2>Winter 2026 Request for Proposals</h2>
   <p>The IPFS Implementations Fund supports a more open, resilient, and efficient web by funding implementations of the <a href="https://specs.ipfs.tech/">IPFS protocol</a>. It aims to broaden the reach and impact of the IPFS project by making content addressing and peer-to-peer networking more accessible across different platforms, programming languages, environments, and use cases.</p>
   <p>Our Utility Grants program supports developers creating essential utilities, libraries, and tooling. Grants of $5,000-25,000 per project aim to fill critical tooling gaps and strengthen the foundations of an open and interoperable web.</p>
-  <p>For the Spring 2025 cycle, we seek proposals from qualified individuals or teams for the following:</p>
+  <p>For the Winter 2026 cycle, we seek proposals from qualified individuals or teams for the following:</p>
 
-  <h3>RFP #2025-01: CAR Archive Explorers and Utilities</h3>
-  <p>The CAR format (Content Addressable aRchives) makes data reliably portable by packaging up content with its cryptographic identifiers. This ensures the same data can be verified and used across different systems and platforms, making it a good building block for “credible exit” and data portability. Typically found in a file with a <code>.car</code> filename extension, you can think of them like TAR files that are designed for storing collections of content addressed data.</p>
-  <p>Originally created as a way to create stable documents from large or dynamic IPLD graphs (including those graphs that populate “virtual directories” of files added to IPFS), CAR files can now be found in IPFS-based systems, Storacha, ATProto, and other open source projects. With growing interest in data independence – moving large datasets between storage providers, backing up personal content from hosted services, and maintaining data integrity across the web – there's a growing need for accessible tools that help people create, inspect, and manage their own CAR files.</p>
-  <p>Currently, there is limited stand-alone tooling for the CAR format. Prior art includes <a href="https://docs.ipfs.tech/reference/kubo/cli/#ipfs-dag-import">kubo</a>'s <code>dag import</code> and <code></code>dag export</code> CLIs, <a href="https://github.com/hsanjuan/caribdis">caribdis</a>, and Bluesky’s <a href="https://github.com/bluesky-social/indigo/blob/main/cmd/goat/repo.go">goat</a>, but they are mostly embedded within larger app-specific libraries and not ergonomic to use outside of that context. Standalone tools include <a href="https://www.npmjs.com/package/ipfs-car">ipfs-car</a> and <a href="https://github.com/ipld/go-car">go-car</a>.</p>
-
-  <p>We are interested in tools that make CAR archives more useful and/or more usable. Command line tools, utility libraries, and browser-based explorers are equally welcome. Enhancements or extensions to existing tools or platforms are especially encouraged.</p>
-
-  <h3>RFP #2025-02: DASL Testing</h3>
-  <p>DASL (Data-Addressed Structures &amp; Links, pronounced "dazzle") is a small set of simple, standard primitives for working with content-addressable resources on today’s or tomorrow’s web. It is a strict subset of IPFS CIDs and IPLD, optimized for simplicity, HTTP, and longevity.</p>
-  <p>The DASL spec was published in December 2024, and is currently supported by <a href="https://dasl.ing/#how">9 implementations or tools</a>. Now, let’s test it. We are interested in proposals with two phases:</p>
+  <h3>RFP #2026-01: DASL Fuzz Testing</h3>
+  <p>
+    <a href="https://dasl.ing/">DASL</a>
+     (Data-Addressed Structures & Links, pronounced "dazzle") is a small set of simple, standard primitives for working with content-addressable resources on today’s or tomorrow’s web. It is a strict subset of IPFS CIDs and IPLD, optimized for simplicity, HTTP, and longevity.</p>
+  <p>The DASL spec was published in December 2024, and is supported by a solid number of implementations. An earlier grant in 2025 produced <a href="https://hyphacoop.github.io/dasl-testing/">a test suite</a> that has greatly helped in improving interoperability and consistency.</p>
+  <p>We now wish to make implementations even more robust by testing with intentionally adversarial data designed to crash or confuse decoders (and, to a lesser degree, encoders). Our driving motivation is that we are seeing DASL used in open-ended, high-popularity protocols where hostile actors are to be expected — and we want to make sure that DASL implementations handle such inputs safely. Additionally, DASL is typically used in scenarios in which cryptographic integrity is key, but that can be silently defeated if it's possible to produce DASL data that is interpreted differently by different implementations even though hashes match.</p>
+  <p>Some inspirational sources from the JSON world are likely to help design similar tests for DASL:</p>
   <ul>
-  <li>First, authoring a set of tests and designing a few happy-path and failure test cases for DASL (specifically its <a href="https://dasl.ing/#spec">CID, dCBOR42, and CAR specs</a>).</li>
-  <li>Second, testing against real-world implementations in approximate conformance and working through spec changes and/or test changes towards a “minor version” that exhausts major corner-cases and ambiguities.</li>
+    <li><a href="https://bishopfox.com/blog/json-interoperability-vulnerabilities">https://bishopfox.com/blog/json-interoperability-vulnerabilities</a></li>
+    <li><a href="https://seriot.ch/software/parsing_json.html">https://seriot.ch/software/parsing_json.html</a></li>
+    <li><a href="https://seriot.ch/json/parsing_pruned.html">https://seriot.ch/json/parsing_pruned.html</a></li>
+    <li><a href="https://github.com/ipld/serde_ipld_dagcbor/tree/master/fuzz">https://github.com/ipld/serde_ipld_dagcbor/tree/master/fuzz</a></li>
   </ul>
+  <p>
+    We expect the primary output to be a corpus of test vectors, complemented by fuzzing infrastructure. The primary focus of this RFP is on fuzzing <a href="https://dasl.ing/drisl.html">DRISL</a><sup><a href="#fn-1" id="bk-fn-1">1</a></sup>-serialized data, but proposals that also include CIDs and CAR are welcome.
+  </p>
   <p>Additional notes:</p>
   <ul>
-  <li>Applicants should make sure that this works as a loop with the spec to clarify and improve it as needed, rather than slavishly follow it. The DASL authors will be available for discussion and collaboration.</li>
-  <li>Proposals should include a list of implementations (at least one ATProto-based) to test against, to ensure alignment of spec, test suite, and implementations.</li>
-  <li>See <a href="https://github.com/darobin/dasl.ing/issues/25">https://github.com/darobin/dasl.ing/issues/25</a> for prior discussion.</li>
+    <li>Applicants should make sure that this works as a feedback loop with the spec to clarify and improve it as needed, rather than slavishly follow it. The DASL editors will be available for discussion and collaboration throughout.</li>
+    <li>Proposals should include a list of implementations (at least one ATProto-based) to test against, to ensure alignment of spec, test suite, and implementations. Applicants should demonstrate familiarity with the implementations they propose to test and describe how they will engage those teams.</li>
+    <li>Extending or reusing <a href="https://hyphacoop.github.io/dasl-testing/">https://hyphacoop.github.io/dasl-testing/</a> is desirable but not mandatory. (We are open to hearing arguments that fuzzing and conformance should be kept separate.)</li>
   </ul>
 
-  <h3>RFP #2025-03: Improving Data Utilities</h3>
-  <p>Recently, several new utilities, libraries, and tools have emerged for working with content-addressed data (CIDs, IPLD, DASL). We welcome these new contributions to the content-addressed ecosystem! We are interested in proposals to improve both longtime and emerging utilities.</p>
-  <p>The scope of work can range broadly, from technical improvements to docs, code examples, outreach, or education. This RFP is focused on active projects that show evidence of current usage and adoption (for example, Github stars, a variety of issue creators, a healthy dependency graph).</p>
-
+  <h3>RFP #2026-02: Domain-Specific IPFS Tooling</h3>
+  <p>Many specialist communities — including science, media & entertainment, healthcare, and publishing as just a few examples — have their own established standards and workflows, but rely on centralised infrastructure for storage, identity, and discovery. There is growing interest and investment in IPFS across these communities, but the lack of domain-specific tooling remains a significant barrier to broad adoption.</p>
+  <p>We are interested in protocol improvements and reusable libraries or modules that integrate IPFS into the data workflows and toolchains of these domains. Proposals should demonstrate a credible path to adoption within the target community.</p>
+    
   <h2>How To Apply</h2>
   <h3>Submission Process</h3>
   <ol>
   <li>Prepare your proposal document according to the requirements outlined below.</li>
-  <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfQXmZ-Iho7EHYwAv-j0RkEwG4xUcQRy0mtWQEyPhl4ld2jTw/viewform?usp=dialog">Submit your proposal</a> no later than <strong>Sunday, March 30, 2025</strong>.</li>
+  <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSd2P0D7uc0gpXW9oKOJx6J7W5grD1oLAN3IlplfSdaTOMHzdQ/viewform?usp=publish-editor">Submit your proposal</a> no later than <strong>Sunday, March 15, 2026</strong>.</li>
   <li>Ensure all team members are available for a potential Q&amp;A call during the specified dates.</li>
   </ol>
 
@@ -83,24 +84,24 @@
   <ul>
   <li>License: Projects must be licensed under the MIT and/or Apache-2.0 licenses.</li>
   <li>Duration: This program targets projects of 1-3 months. Exceptions will be considered on a case-by-case basis.</li>
-  <li>Contributions to existing projects:</li> If you are proposing to improve an existing project of which you are not a maintainer, please check with the maintainer(s) first. Your proposal should link to an issue or other artifact showing that you have discussed the proposed change with the maintainer, incorporated any feedback, and that they support and will be available to review your PRs.
+  <li>Contributions to existing projects:<br> If you are proposing to improve an existing project of which you are not a maintainer, please check with the maintainer(s) first. Your proposal should link to an issue or other artifact showing that you have discussed the proposed change with the maintainer, incorporated any feedback, and that they support and will be available to review your PRs.</li>
   <li>Project Communications:
     <ul>
     <li>Grantees are expected to publish an overview and introduction to their project upon completion. This can be on a personal blog or website, the IPFS Forum, or other public place.</li>
-    <li>Grantees will give a brief presentation at a virtual showcase in June. Depending on your proposed timeline, projects are not required to be completed at this time, but should have enough progress for a meaningful presentation.</li>
+    <li>Grantees will give a brief presentation at a virtual event in June. Depending on your proposed timeline, projects are not required to be completed at this time, but should have enough progress for a meaningful presentation.</li>
     </ul></li>
   <li>Maintenance Grant: An additional grant of 10% of the original award will be available to support a 12-month period of basic maintenance. This can include any activity to keep your project healthy, including but not limited to bug fixes, minor improvements, community support, responses to Github issues or PRs, docs, examples, and other educational content.</li>
   </ul>
 
   <h3>Important Dates</h3>
   <ul>
-  <li>Informational Sessions (Virtual): <a href="https://lu.ma/14t7w2oy">March 12</a> &amp; <a href="https://lu.ma/gwpygczs">March 26</a>, 2025</li>
-  <li>Submission Deadline: March 30, 2025</li>
-  <li>Finalist Notification: April 7, 2025</li>
-  <li>Review Period: April 7 - April 21, 2025</li>
-  <li>Q&amp;A Calls with Finalists: April 17 - April 20, 2025</li>
-  <li>Grantees Acceptance Notification: April 23, 2025</li>
-  <li>Grantee Presentations (Virtual): June 2025 (exact date TBA)</li>
+  <li>Informational Sessions (Virtual): to be announced</li>
+  <li>Submission Deadline: March 15, 2026</li>
+  <li>Finalist Notification: March 23, 2026</li>
+  <li>Review Period: March 23 - April 04, 2026</li>
+  <li>Q&amp;A Calls with Finalists: April 06 - April 10, 2026</li>
+  <li>Grantees Acceptance Notification: April 13, 2026</li>
+  <li>Grantee Presentations (Virtual): (exact date TBA, likely June or July [CID Congress](https://luma.com/cid-congress))</li>
   </ul>
 
   <p>Thank you for your interest and good luck with your submission! For any questions, please contact <a href="mailto:utility-grants@ipfs.io">utility-grants@ipfs.io</a>.</p>
